@@ -1,9 +1,11 @@
 tasks:
-  - init: "gp open cmake.toml
-  && gp open src/example.cpp
+  - init: "gp env HOME=$(pwd)/.home
   && cmake -B/tmp/build -G Ninja
   && cmake --build /tmp/build
+  && rm -rf /tmp/build
   "
+  - command: gp open cmake.toml
+  - command: gp open src/example.cpp
 
 github:
   prebuilds:
