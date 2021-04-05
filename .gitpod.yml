@@ -22,3 +22,6 @@ github:
     addBadge: true
     # add a label once the prebuild is ready to pull requests (defaults to false)
     addLabel: prebuilt-in-gitpod
+vscode:
+  extensions:
+    - ms-vscode.cmake-tools@1.6.0:lvoCR5usjseB5thI3sZhWA==
