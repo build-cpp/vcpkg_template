@@ -1,0 +1,18 @@
+[project]
+name = "vcpkg_template"
+
+# See https://github.com/microsoft/vcpkg#getting-started on how to use vcpkg
+[vcpkg]
+# Chose a tag from https://github.com/microsoft/vcpkg/releases
+version = "2020.11"
+# During CMake configuration you will be told how to find and link to the packages
+packages = ["fmt", "sqlite3"]
+
+[find-package]
+fmt = { version = "*" }
+unofficial-sqlite3 = { version = "*" }
+
+[target.example]
+type = "executable"
+sources = ["src/example.cpp"]
+link-libraries = ["fmt::fmt", "unofficial::sqlite3::sqlite3"]
