@@ -2,7 +2,7 @@ include_guard()
 
 # Change these defaults to point to your infrastructure if desired
 set(CMKR_REPO "https://github.com/MoAlyousef/cmkr" CACHE STRING "cmkr git repository")
-set(CMKR_TAG "archive_5a20c0fe" CACHE STRING "cmkr git tag (this needs to be available forever)")
+set(CMKR_TAG "archive_6162e863" CACHE STRING "cmkr git tag (this needs to be available forever)")
 set(CMKR_EXECUTABLE "" CACHE FILEPATH "cmkr executable")
 set(CMKR_SKIP_GENERATION OFF CACHE BOOL "skip automatic cmkr generation")
 
