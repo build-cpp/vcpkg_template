@@ -1,9 +1,8 @@
 tasks:
   - init: "gp open cmake.toml
   && gp open src/example.cpp
-  && cmake -Bbuild -G Ninja
-  && cd build
-  && echo Run \"make\" to build and \"./example\" to run the executable
+  && cmake -B/tmp/build -G Ninja
+  && cmake --build /tmp/build
   "
 
 github:
