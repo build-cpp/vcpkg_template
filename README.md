@@ -21,14 +21,18 @@ Then open the `.sln` (Windows) or run `make` (Unix) from the `build` directory.
 Under the hood cmkr generates the `CMakeLists.txt` required to build this project from the `cmake.toml` file:
 
 ```toml
+[cmake]
+version = "3.15"
+cmkr-include = "cmake/cmkr.cmake"
+
 [project]
 name = "vcpkg_template"
 
 # See https://github.com/microsoft/vcpkg#getting-started on how to use vcpkg
-[vcpkg]
-# Chose a tag from https://github.com/microsoft/vcpkg/releases
-version = "2020.11"
+# Chose a version from https://github.com/microsoft/vcpkg/releases
 # During CMake configuration you will be told how to find and link to the packages
+[vcpkg]
+version = "2020.11"
 packages = ["fmt", "sqlite3"]
 
 [find-package]
