@@ -1,9 +1,5 @@
 tasks:
-  - init: "gp env HOME=$(pwd)/.home
-  && cmake -B/tmp/build -G Ninja
-  && cmake --build /tmp/build
-  && rm -rf /tmp/build
-  "
+  - init: gp env HOME=$(pwd)/.home
   - command: gp open cmake.toml
   - command: gp open src/example.cpp
 
