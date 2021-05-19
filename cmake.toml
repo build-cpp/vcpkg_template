@@ -5,9 +5,6 @@ cmkr-include = "cmake/cmkr.cmake"
 [project]
 name = "vcpkg_template"
 
-[fetch-content]
-pmm = { url = "https://github.com/mrexodia/pmm/archive/refs/tags/1.6.0.tar.gz", SOURCE_SUBDIR = "pmm" }
-
 # See https://github.com/microsoft/vcpkg#getting-started on how to use vcpkg
 # Chose a version from https://github.com/microsoft/vcpkg/releases
 # During CMake configuration you will be told how to find and link to the packages
