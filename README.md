@@ -20,15 +20,13 @@ This is a template showcasing [cmkr](https://github.com/build-cpp/cmkr) together
 Under the hood cmkr generates the `CMakeLists.txt` required to build this project from the `cmake.toml` file:
 
 ```toml
+[cmake]
+version = "3.15"
+cmkr-include = "cmake/cmkr.cmake"
+
 [project]
 name = "vcpkg_template"
-
-# See https://github.com/microsoft/vcpkg#getting-started on how to use vcpkg
-# Chose a version from https://github.com/microsoft/vcpkg/releases
-# During CMake configuration you will be told how to find and link to the packages
-[vcpkg]
-version = "2020.11"
-packages = ["fmt", "sqlite3"]
+include-after = ["cmake/vcpkg.cmake"]
 
 [find-package]
 fmt = { version = "*" }
@@ -39,3 +37,14 @@ type = "executable"
 sources = ["src/example.cpp"]
 link-libraries = ["fmt::fmt", "unofficial::sqlite3::sqlite3"]
 ```
+
+In `vcpkg.json` you declare which packages you need:
+
+```json
+{
+  "name": "vcpkg_template",
+  "version": "0.0.1",
+  "dependencies": ["fmt", "sqlite3"]
+}
+```
+

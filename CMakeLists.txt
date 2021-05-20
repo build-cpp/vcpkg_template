@@ -9,7 +9,7 @@ if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
 	set(CMKR_ROOT_PROJECT ON)
 
 	# Bootstrap cmkr
-	include(cmkr.cmake OPTIONAL RESULT_VARIABLE CMKR_INCLUDE_RESULT)
+	include("cmake/cmkr.cmake" OPTIONAL RESULT_VARIABLE CMKR_INCLUDE_RESULT)
 	if(CMKR_INCLUDE_RESULT)
 		cmkr()
 	endif()
@@ -25,28 +25,7 @@ endif()
 
 project(vcpkg_template)
 
-include(FetchContent)
-
-message(STATUS "Fetching pmm...")
-FetchContent_Declare(
-	pmm
-	SOURCE_SUBDIR
-		pmm
-	URL
-		https://github.com/vector-of-bool/pmm/archive/refs/tags/1.5.1.tar.gz
-)
-FetchContent_MakeAvailable(pmm)
-
-# Bootstrap vcpkg
-include("${pmm_SOURCE_DIR}/pmm.cmake")
-pmm(
-	VCPKG
-		REVISION
-			2020.11
-		REQUIRES
-			fmt
-			sqlite3
-)
+include("cmake/vcpkg.cmake")
 
 # Packages
 find_package(fmt REQUIRED CONFIG)
