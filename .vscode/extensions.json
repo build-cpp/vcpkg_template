@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "ms-vscode.cmake-tools",
+        "llvm-vs-code-extensions.vscode-clangd",
+        "twxs.cmake",
+        "tamasfe.even-better-toml",
+        "ms-vscode-remote.vscode-remote-extensionpack"
+    ]
+}
