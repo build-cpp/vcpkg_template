@@ -1,30 +1,25 @@
-[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/from-referrer/)
-
 # vcpkg_template
 
 This is a template showcasing [cmkr](https://github.com/build-cpp/cmkr) together with [vcpkg](https://github.com/microsoft/vcpkg) for frictionless cross platform dependency management with CMake.
 
-## Building (IDE)
+## Building (Visual Studio Code)
 
-Clone this repository and open it in your favorite IDE with CMake support (Visual Studio, CLion, Qt Creator). Everything should work out of the box.
+1. Open this directory
+2. Install the suggested extensions
+3. Ctrl+Shift+P => CMake: Configure
 
-## Building (command line)
+## Building (Visual Studio Code WSL)
 
-```
-cmake -Bbuild
-```
-
-Then open the `.sln` (Windows) or run `make` (Unix) from the `build` directory.
+1. Open this directory in WSL
+2. Run `code .`
+3. Install the suggested extensions
+4. Ctrl+Shift+P => CMake: Configure
 
 ## cmake.toml
 
 Under the hood cmkr generates the `CMakeLists.txt` required to build this project from the `cmake.toml` file:
 
 ```toml
-[cmake]
-version = "3.15"
-cmkr-include = "cmake/cmkr.cmake"
-
 [project]
 name = "vcpkg_template"
 
