@@ -1,5 +1,5 @@
 {
-  "name": "vcpkg_template",
+  "name": "vcpkg-template",
   "version": "0.0.1",
   "dependencies": ["fmt", "sqlite3"]
 }
