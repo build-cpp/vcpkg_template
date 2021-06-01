@@ -9,7 +9,7 @@ if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
 	set(CMKR_ROOT_PROJECT ON)
 
 	# Bootstrap cmkr
-	include("cmake/cmkr.cmake" OPTIONAL RESULT_VARIABLE CMKR_INCLUDE_RESULT)
+	include(cmkr.cmake OPTIONAL RESULT_VARIABLE CMKR_INCLUDE_RESULT)
 	if(CMKR_INCLUDE_RESULT)
 		cmkr()
 	endif()
@@ -25,19 +25,22 @@ endif()
 
 project(vcpkg_template)
 
-include("cmake/vcpkg.cmake")
-
+if(CMKR_ROOT_PROJECT AND NOT CMKR_DISABLE_VCPKG)
+	include(FetchContent)
+	message(STATUS "Fetching vcpkg...")
+	FetchContent_Declare(vcpkg URL "https://github.com/microsoft/vcpkg/archive/refs/tags/2021.05.12.tar.gz")
+	FetchContent_MakeAvailable(vcpkg)
+	include("${vcpkg_SOURCE_DIR}/scripts/buildsystems/vcpkg.cmake")
+endif()
 # Packages
-find_package(fmt REQUIRED CONFIG)
-
-find_package(unofficial-sqlite3 REQUIRED CONFIG)
+find_package(SDL2 REQUIRED CONFIG)
 
 # Target example
 set(CMKR_TARGET example)
 set(example_SOURCES "")
 
 list(APPEND example_SOURCES
-	"src/example.cpp"
+	"src/main.cpp"
 )
 
 list(APPEND example_SOURCES
@@ -59,8 +62,8 @@ endif()
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${example_SOURCES})
 
 target_link_libraries(example PRIVATE
-	fmt::fmt
-	unofficial::sqlite3::sqlite3
+	SDL2::SDL2
+	SDL2::SDL2main
 )
 
 unset(CMKR_TARGET)
