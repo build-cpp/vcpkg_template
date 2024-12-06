@@ -4,7 +4,11 @@
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
   "dependencies": [
     "fmt",
-    "sqlite3",
+    {
+      "name": "sqlite3",
+      "default-features": false,
+      "features": ["dbstat"]
+    },
     "mylib"
   ],
   "description": "",

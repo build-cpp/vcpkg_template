@@ -25,7 +25,8 @@ name = "vcpkg_template"
 version = "2024.11.16"
 packages = [
     "fmt",
-    "sqlite3",
+    # disable default features (core) and enable DBSTAT virtual table (dbstat)
+    "sqlite3[core,dbstat]",
     "mylib",
 ]
 overlay = "vcpkg-overlay"

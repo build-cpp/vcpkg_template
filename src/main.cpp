@@ -5,6 +5,11 @@
 
 int main()
 {
-    fmt::print("SQLite version: {}\n", sqlite3_libversion());
+    fmt::print("SQLite version: {} (DBSTAT={}, JSON1={})\n",
+        sqlite3_libversion(),
+        sqlite3_compileoption_used("SQLITE_ENABLE_DBSTAT_VTAB"),
+        sqlite3_compileoption_used("SQLITE_ENABLE_JSON1")
+    );
+
     fmt::print("{} version: {}\n", mylib::reverse("bilym"), mylib::version());
 }
