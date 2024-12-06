@@ -1,25 +1,46 @@
 name: CMake
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
 
 jobs:
   build:
+    # Skip building pull requests from the same repository
+    if: ${{ github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository) }}
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
-        os: [windows-2019, macos-10.15, ubuntu-20.04]
+        os: [windows-latest, macos-latest, ubuntu-latest]
     env:
-      BUILD_TYPE: Release
+      BUILD_TYPE: "Release"
+      CMAKE_GENERATOR: "Ninja"
+      VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
+    
     steps:
-    - name: Checkout Repo
-      uses: actions/checkout@v2
-    - name: Compile with gcc 10 on ubuntu
-      if: ${{ matrix.os == 'ubuntu-20.04' }}
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    # Reference: https://learn.microsoft.com/en-us/vcpkg/consume/binary-caching-github-actions-cache
+    - name: Export GitHub Actions cache environment variables
+      uses: actions/github-script@v7
+      with:
+        script: |
+          core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
+          core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || ''); 
+
+    - name: Install Ninja
+      uses: seanmiddleditch/gha-setup-ninja@96bed6edff20d1dd61ecff9b75cc519d516e6401 # v5
+
+    - name: Visual Studio Development Environment
+      uses: ilammy/msvc-dev-cmd@cec98b9d092141f74527d0afa6feb2af698cfe89 # v1.12.1
+
+    - name: CMake Build
       run: |
-         echo "CC=gcc-10" >> $GITHUB_ENV
-         echo "CXX=g++-10" >> $GITHUB_ENV
-    - name: Build
-      run: |
-        cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}
+        cmake -B build "-DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}"
         cmake --build build --config ${{ env.BUILD_TYPE }} --parallel
+    
+    - name: Run Tests
+      run: |
+        build/example

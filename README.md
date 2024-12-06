@@ -1,45 +1,64 @@
-[![Gitpod ready-to-code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/from-referrer/)
-
 # vcpkg_template
 
 This is a template showcasing [cmkr](https://github.com/build-cpp/cmkr) together with [vcpkg](https://github.com/microsoft/vcpkg) for frictionless cross platform dependency management with CMake.
 
-## Building (IDE)
+## Building
 
-Clone this repository and open it in your favorite IDE with CMake support (Visual Studio, CLion, Qt Creator). Everything should work out of the box.
-
-## Building (command line)
+Use the following commands to build the project:
 
 ```
-cmake -Bbuild
+cmake -B build
+cmake --build build
 ```
-
-Then open the `.sln` (Windows) or run `make` (Unix) from the `build` directory.
 
 ## cmake.toml
 
 Under the hood cmkr generates the `CMakeLists.txt` required to build this project from the `cmake.toml` file:
 
 ```toml
-[cmake]
-version = "3.15"
-cmkr-include = "cmake/cmkr.cmake"
-
 [project]
 name = "vcpkg_template"
 
-# See https://vcpkg.io/en/packages.html for available packages
+# See https://vcpkg.link for available packages
 # Chose a version from https://github.com/microsoft/vcpkg/releases
 [vcpkg]
-version = "2021.05.12"
-packages = ["fmt", "sqlite3"]
+version = "2024.11.16"
+packages = [
+    "fmt",
+    "sqlite3",
+    "mylib",
+]
+overlay = "vcpkg-overlay"
 
-[find-package]
-fmt = { version = "*" }
-unofficial-sqlite3 = { version = "*" }
+# Make the packages available to CMake
+[find-package.fmt]
+[find-package.unofficial-sqlite3]
+[find-package.unofficial-mylib]
 
 [target.example]
 type = "executable"
 sources = ["src/main.cpp"]
-link-libraries = ["fmt::fmt", "unofficial::sqlite3::sqlite3"]
+link-libraries = [
+    "fmt::fmt",
+    "unofficial::sqlite3::sqlite3",
+    "unofficial::mylib::mylib",
+]
 ```
+
+## Vcpkg overlay
+
+The `[vcpkg].overlay` key points to a local folder used as an overlay for vcpkg ports and triplets:
+
+```sh
+vcpkg-overlay
+├── mylib              # custom port
+│   ├── CMakeLists.txt
+│   ├── portfile.cmake
+│   ├── usage
+│   └── vcpkg.json
+└── x64-windows.cmake  # custom triplet
+```
+
+The `vcpkg-overlay/mylib` [overlay port](https://learn.microsoft.com/en-us/vcpkg/concepts/overlay-ports) is used to make the example [mylib](https://gitlab.com/mrexodia/mylib) available without having to fork the vcpkg repository or create a custom registry.
+
+The `vcpkg-overlay/x64-windows.cmake` [overlay triplet](https://learn.microsoft.com/en-us/vcpkg/users/examples/overlay-triplets-linux-dynamic) is used to always build static libraries for Windows (instead of shared libraries, which is normally the default).
