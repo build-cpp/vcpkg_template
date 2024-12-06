@@ -1,21 +1,27 @@
-[cmake]
-version = "3.15"
-cmkr-include = "cmake/cmkr.cmake"
-
 [project]
 name = "vcpkg_template"
 
-# See https://vcpkg.io/en/packages.html for available packages
+# See https://vcpkg.link for available packages
 # Chose a version from https://github.com/microsoft/vcpkg/releases
 [vcpkg]
-version = "2021.05.12"
-packages = ["fmt", "sqlite3"]
+version = "2024.11.16"
+packages = [
+    "fmt",
+    "sqlite3",
+    "mylib",
+]
+overlay = "vcpkg-overlay"
 
-[find-package]
-fmt = { version = "*" }
-unofficial-sqlite3 = { version = "*" }
+# Make the packages available to CMake
+[find-package.fmt]
+[find-package.unofficial-sqlite3]
+[find-package.unofficial-mylib]
 
 [target.example]
 type = "executable"
 sources = ["src/main.cpp"]
-link-libraries = ["fmt::fmt", "unofficial::sqlite3::sqlite3"]
+link-libraries = [
+    "fmt::fmt",
+    "unofficial::sqlite3::sqlite3",
+    "unofficial::mylib::mylib",
+]
